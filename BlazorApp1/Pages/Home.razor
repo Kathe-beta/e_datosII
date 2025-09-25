@@ -1,7 +1,23 @@
-﻿@page "/"
+﻿@using Microsoft.AspNetCore.Components.Web
+@inject Supabase.Client supabase
+@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+@page "/"
 
-<h1>Hello, world!</h1>
+<h1>Hola Kathe! :D</h1>
+<button @onclick="Mostrar">Mostrar Estudiantes</button>
+@foreach(var estudiante in estudiantes){
+    <p>@estudiante.Nombre - @estudiante.Carrera</p>
+}
 
 Welcome to your new app.
+
+@code{
+    List<Estudiante> estudiantes = new List<Estudiante>();
+
+    private async Task Mostrar(){
+        var result = await supabase.From<Estudiante>().Get();
+        var estudiantes = result.Models;
+    }
+    
+}
